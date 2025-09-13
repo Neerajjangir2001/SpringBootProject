@@ -3,6 +3,7 @@ package com.JavaSpringBootProject.Product.service;
 import com.JavaSpringBootProject.Product.dto.ProductDTO;
 import com.JavaSpringBootProject.Product.entity.Category;
 import com.JavaSpringBootProject.Product.entity.Product;
+import com.JavaSpringBootProject.Product.exception.CategoryNotFoundException;
 import com.JavaSpringBootProject.Product.mapper.ProductMapper;
 import com.JavaSpringBootProject.Product.repository.CategoryRepository;
 import com.JavaSpringBootProject.Product.repository.ProductRepository;
@@ -24,8 +25,11 @@ public class ProductService {
 
     public ProductDTO crateProduct(ProductDTO productDTO) {
 
-        Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found!"));
+        Category category = categoryRepository.findById(productDTO.getCategoryId()).
+                orElseThrow(() -> new CategoryNotFoundException(" Category " + productDTO.getCategoryId() + " not found "));
+
         Product productEntity = ProductMapper.toProductEntity(productDTO, category);
+
         productEntity = productRepository.save(productEntity);
         return ProductMapper.toProductDTO(productEntity);
 

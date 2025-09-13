@@ -2,6 +2,7 @@ package com.JavaSpringBootProject.Product.controller;
 
 import com.JavaSpringBootProject.Product.dto.CategoryDTO;
 import com.JavaSpringBootProject.Product.entity.Category;
+import com.JavaSpringBootProject.Product.exception.CategoryAlreadyExistsException;
 import com.JavaSpringBootProject.Product.mapper.CategoryMapper;
 import com.JavaSpringBootProject.Product.repository.CategoryRepository;
 import com.JavaSpringBootProject.Product.service.CategoryService;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 @AllArgsConstructor
 public class CategoryController {
 
@@ -23,7 +24,7 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO) {
         return new ResponseEntity<>(categoryService.createCategory(categoryDTO), HttpStatus.CREATED);
     }
 
